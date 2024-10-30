@@ -1,17 +1,6 @@
 <?php 
-    $server = "localhost";
-    $username = "academix2";
-    $password = "AdminsPrakashDevRaogroups";
-    $db = "academix2";
-
-    $flag = false;
-
-    $conn = new mysqli($server, $username, $password, $db);
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
+    include('dbconnect.php');
+    
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $schoolName = $_POST["schoolName"];
         $username = $_POST["username"];
