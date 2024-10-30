@@ -1,3 +1,40 @@
+<?php 
+    $server = "localhost";
+    $username = "academix2";
+    $password = "AdminsPrakashDevRaogroups";
+    $db = "academix2";
+
+    $flag = false;
+
+    $conn = new mysqli($server, $username, $password, $db);
+
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $schoolName = $_POST["schoolName"];
+        $username = $_POST["username"];
+        $email = $_POST["email"];
+        $password = $_POST["password"];
+        $confirmPassword = $_POST["confirmPassword"];
+
+        if ($password !== $confirmPassword) {
+            echo "Passwords do not match";
+            exit();
+        }
+
+        $sql = "INSERT INTO admins (schoolName, username, email, password) VALUES ('$schoolName', '$username', '$email', '$password')";
+        if ($conn->query($sql) === TRUE) {
+            $flag = true;
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    }
+
+    $conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +43,7 @@
     <title>Signup - Academix</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <Link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <style>
     *{
@@ -39,30 +76,30 @@
                 </div>
 
                 <div class="mt-8">
-                    <form>
+                    <form method="POST" action="">
                         <div>
-                            <label for="school-name" class="block mb-2 text-sm text-gray-600 dark:text-gray-200">School Name</label>
-                            <input type="text" name="school-name" id="school-name" placeholder="Your School Name" class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+                            <label for="schoolName" class="block mb-2 text-sm text-gray-600 dark:text-gray-200">School Name</label>
+                            <input type="text" name="schoolName" id="schoolName" placeholder="Your School Name" class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" required />
                         </div>
 
                         <div class="mt-6">
                             <label for="username" class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Username</label>
-                            <input type="text" name="username" id="username" placeholder="Choose a username" class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+                            <input type="text" name="username" id="username" placeholder="Choose a username" class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" required />
                         </div>
 
                         <div class="mt-6">
                             <label for="email" class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Email Address</label>
-                            <input type="email" name="email" id="email" placeholder="example@example.com" class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+                            <input type="email" name="email" id="email" placeholder="example@example.com" class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" required />
                         </div>
 
                         <div class="mt-6">
                             <label for="password" class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Password</label>
-                            <input type="password" name="password" id="password" placeholder="Create a password" class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+                            <input type="password" name="password" id="password" placeholder="Create a password" class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" required />
                         </div>
 
                         <div class="mt-6">
-                            <label for="confirm-password" class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Confirm Password</label>
-                            <input type="password" name="confirm-password" id="confirm-password" placeholder="Re-enter password" class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+                            <label for="confirmPassword" class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Confirm Password</label>
+                            <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Re-enter password" class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" required />
                         </div>
 
                         <div class="mt-6">
@@ -78,5 +115,11 @@
         </div>
     </div>
 </div>
+<?php if ($flag): ?>
+    <script>
+        alert("Account created successfully!");
+        window.location.href = "Admin/main.php";
+    </script>
+<?php endif; ?>
 </body>
 </html>
