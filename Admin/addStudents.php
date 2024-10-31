@@ -40,7 +40,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <script>
-    const id = localStorage.getItem("id");
+    const id = localStorage.getItem("adminID");
 
     const handleChange = () =>{
         const idField = document.getElementById("id");

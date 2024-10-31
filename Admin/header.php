@@ -84,6 +84,7 @@ body {
             <span>Marks</span>
           </a>
           <a
+            id="logout"
             class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white"
           >
             <span>Logout</span>
@@ -105,6 +106,15 @@ body {
   });
 });
 
+const Logout = document.getElementById("logout");
+
+Logout.addEventListener("click", function() {
+  const cf = confirm("Are you sure you want to logout?");
+  if (cf) {
+    localStorage.clear();
+    window.location.href = "../login.php";
+  }
+});
 </script>
 </body>
 </html>
