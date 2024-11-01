@@ -38,6 +38,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Students</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <script>
     const id = localStorage.getItem("adminID");
@@ -49,7 +50,7 @@
 </script>
 <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
     <div class="bg-white shadow-lg rounded-lg p-8 w-full">
-        <h1 class="text-2xl font-bold text-center text-purple-700 mb-6">Add New Student</h1>
+        <h1 class="text-2xl font-bold text-center text-purple-700 mb-6 fade-in-up">Add New Student</h1>
         <form method="POST" action="">
             <div class="mb-4">
                 <label for="image" class="block text-gray-700 font-semibold mb-2">Image URL:</label>

@@ -11,7 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
 <style>
   html,
 body {
@@ -25,7 +25,7 @@ body {
 }
 </style>
 
-<nav class="flex items-center bg-gray-800 p-3 flex-wrap w-full">
+<nav class="flex items-center bg-blue-900 p-3 flex-wrap w-full">
       <a href="#" class="p-2 mr-4 inline-flex items-center">
         <svg
           viewBox="0 0 24 24"
@@ -60,22 +60,10 @@ body {
             <span>Dashboard</span>
           </a>
           <a
-            href="addStudents.php"
-            class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white items-center justify-center hover:bg-gray-900 hover:text-white"
-          >
-            <span>Add Students</span>
-          </a>
-          <a
             href="notices.php"
             class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white items-center justify-center hover:bg-gray-900 hover:text-white"
           >
             <span>Notices</span>
-          </a>
-          <a
-            href="students.php"
-            class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white items-center justify-center hover:bg-gray-900 hover:text-white"
-          >
-            <span>Students</span>
           </a>
           <a
             href="marks.php"
