@@ -12,14 +12,14 @@ $message = '';
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action'])) {
     if ($_POST['action'] === 'delete' && !empty($_POST['notice_id'])) {
         $notice_id = $_POST['notice_id'];
-        $school_id = $_COOKIE['school_id']; 
+        $school_id = $_COOKIE['school_id'];
 
-        $stmt = $conn->prepare("DELETE FROM notices WHERE id = ? AND school_id = ?");
-        $stmt->bind_param("ss", $notice_id, $school_id);
-        $stmt->execute();
-        $stmt->close();
-
-        $message = 'Notice deleted successfully.';
+        $sql = "DELETE FROM notices WHERE id = '$notice_id' AND school_id = '$school_id'";
+        if ($conn->query($sql) === TRUE) {
+            $message = 'Notice deleted successfully.';
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
     }
 }
 
@@ -27,44 +27,46 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['update'])) {
     $title = $_POST['title'];
     $content = $_POST['content'];
     $notice_id = $_POST['notice_id'];
-    $school_id = $_COOKIE['school_id']; 
+    $school_id = $_COOKIE['school_id'];
 
     if (!empty($title) && !empty($content) && !empty($school_id) && !empty($notice_id)) {
-        $stmt = $conn->prepare("UPDATE notices SET title = ?, content = ? WHERE id = ? AND school_id = ?");
-        $stmt->bind_param("ssss", $title, $content, $notice_id, $school_id);
-        $stmt->execute();
-        $stmt->close();
-
-        $message = 'Notice updated successfully.';
+        $sql = "UPDATE notices SET title = '$title', content = '$content' WHERE id = '$notice_id' AND school_id = '$school_id'";
+        if ($conn->query($sql) === TRUE) {
+            $message = 'Notice updated successfully.';
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
     }
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && !isset($_POST['action']) && !isset($_POST['update'])) {
     $title = $_POST['title'];
     $content = $_POST['content'];
-    $school_id = $_COOKIE['school_id']; 
+    $school_id = $_COOKIE['school_id'];
 
     if (!empty($title) && !empty($content) && !empty($school_id)) {
-        $stmt = $conn->prepare("INSERT INTO notices (school_id, title, content, posted_on) VALUES (?, ?, ?, NOW())");
-        $stmt->bind_param("sss", $school_id, $title, $content);
-        $stmt->execute();
-        $stmt->close();
-
-        $message = 'Notice posted successfully.';
+        $sql = "INSERT INTO notices (school_id, title, content, posted_on) VALUES ('$school_id', '$title', '$content', NOW())";
+        if ($conn->query($sql) === TRUE) {
+            $message = 'Notice posted successfully.';
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
     }
 }
 
 $school_id = $_COOKIE['school_id'];
 $notices = [];
 if (!empty($school_id)) {
-    $stmt = $conn->prepare("SELECT * FROM notices WHERE school_id = ? ORDER BY posted_on DESC");
-    $stmt->bind_param("s", $school_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    while ($row = $result->fetch_assoc()) {
-        $notices[] = $row;
+    $sql = "SELECT * FROM notices WHERE school_id = '$school_id' ORDER BY posted_on DESC";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $notices[] = $row;
+        }
+    } else {
+        
     }
-    $stmt->close();
 }
 ?>
 
@@ -159,8 +161,7 @@ if (!empty($school_id)) {
                 <label for="editContent" class="block text-gray-700 font-semibold mt-4 mb-2">Notice:</label>
                 <textarea id="editContent" name="content" rows="5" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required></textarea>
 
-                <button type="submit" name="update" class="w-full mt-4 p-2 bg-green-600 text-white font-bold rounded-md hover:bg-green-500 focus:outline-none">Update Notice</button>
-                <button type="button" onclick="closeEditPopup()" class="w-full mt-2 p-2 bg-gray-400 text-white font-bold rounded-md hover:bg-gray-300 focus:outline-none">Cancel</button>
+                <button type="submit" name="update" class="w-full mt-4 p-2 bg-gray-800 text-white font-bold rounded-md hover:bg-gray-600 focus:outline-none">Update Notice</button>
             </form>
         </div>
     </div>

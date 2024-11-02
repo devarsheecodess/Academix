@@ -11,28 +11,25 @@ $school_id = null;
 
 if (!empty($_COOKIE['studentID'])) {
     $studentID = $_COOKIE['studentID'];
-    
-    $stmt = $conn->prepare("SELECT school_id FROM students WHERE id = ?");
-    $stmt->bind_param("s", $studentID);
-    $stmt->execute();
-    $result = $stmt->get_result();
 
+    // Direct query without prepare/execute/bind_param
+    $sql = "SELECT school_id FROM students WHERE id = $studentID";
+    $result = $conn->query($sql);
+    
     if ($row = $result->fetch_assoc()) {
         $school_id = $row['school_id'];
     }
-    $stmt->close();
 }
 
 $notices = [];
 if (!empty($school_id)) {
-    $stmt = $conn->prepare("SELECT * FROM notices WHERE school_id = ? ORDER BY posted_on DESC");
-    $stmt->bind_param("s", $school_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    // Direct query for notices
+    $sql = "SELECT * FROM notices WHERE school_id = $school_id ORDER BY posted_on DESC";
+    $result = $conn->query($sql);
+    
     while ($row = $result->fetch_assoc()) {
         $notices[] = $row;
     }
-    $stmt->close();
 }
 ?>
 
@@ -90,12 +87,22 @@ if (!empty($school_id)) {
     </div>
 
     <script>
+        // Set the studentID from local storage as a cookie
+        (function() {
+            const studentID = localStorage.getItem('studentID');
+            if (studentID) {
+                document.cookie = 'studentID=' + studentID;
+            }
+        })();
+
+        // Function to show the notice popup
         function showNoticePopup(title, content) {
             document.getElementById('modalTitle').innerText = title;
             document.getElementById('modalContent').innerText = content;
             document.getElementById('noticeModal').classList.remove('hidden');
         }
 
+        // Function to close the notice popup
         function closeNoticePopup() {
             document.getElementById('noticeModal').classList.add('hidden');
         }
