@@ -50,7 +50,7 @@
 </script>
 <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
     <div class="bg-white shadow-lg rounded-lg p-8 w-full">
-        <h1 class="text-2xl font-bold text-center text-purple-700 mb-6 fade-in-up">Add New Student</h1>
+        <h1 class="text-2xl font-bold text-center mb-6 text-gray-800 fade-in-up">Add New Student</h1>
         <form method="POST" action="">
             <div class="mb-4">
                 <label for="image" class="block text-gray-700 font-semibold mb-2">Image URL:</label>

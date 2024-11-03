@@ -12,7 +12,6 @@ $school_id = null;
 if (!empty($_COOKIE['studentID'])) {
     $studentID = $_COOKIE['studentID'];
 
-    // Direct query without prepare/execute/bind_param
     $sql = "SELECT school_id FROM students WHERE id = $studentID";
     $result = $conn->query($sql);
     
@@ -44,7 +43,7 @@ if (!empty($school_id)) {
 </head>
 <body>
     <div class="flex justify-center items-center">
-        <h1 class="text-center text-3xl mt-20 font-bold fade-in-up">Notices</h1>
+        <h1 class="text-center text-3xl mt-20 font-bold text-gray-800 fade-in-up">Notices</h1>
     </div>
 
     <div class="flex flex-wrap gap-10 justify-center items-start mt-10 px-4">
