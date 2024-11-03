@@ -43,7 +43,7 @@ if (!empty($school_id)) {
 </head>
 <body>
     <div class="flex justify-center items-center">
-        <h1 class="text-center text-3xl mt-20 font-bold text-gray-800 fade-in-up">Notices</h1>
+        <h1 class="text-center text-3xl mt-20 font-bold text-blue-900 fade-in-up">Notices</h1>
     </div>
 
     <div class="flex flex-wrap gap-10 justify-center items-start mt-10 px-4">

@@ -13,7 +13,7 @@ include 'header.php';
 </head>
 <body>
     <div class="flex justify-center items-center">
-        <h1 id="greet" class="text-center text-3xl mt-20 font-bold fade-in-up"></h1>
+        <h1 id="greet" class="text-center text-3xl mt-20 font-bold fade-in-up text-blue-900"></h1>
     </div>
 
     <div id="currentTime" class="text-center text-xl mt-2 font-semibold slide-in-left"></div>

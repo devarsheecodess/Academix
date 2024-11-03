@@ -1,5 +1,5 @@
 <?php
-include '../dbconnect2.php';
+include '../dbconnect.php';
 include 'header.php';
 
 // Assuming `studentId` is stored in a cookie
@@ -32,32 +32,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $studentId) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Head section remains the same -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Student Marks</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
-        <h2 class="text-2xl font-bold mb-6 text-purple-700 text-center">Add Student Marks</h2>
-        <form method="POST" action="">
-            <?php 
-            $subjects = ["Database Management", "Theory of Computation", "Internet of Things", "Statistical Model Science", "Ethics and Entrepreneurship", "Open Elective"];
-            foreach ($subjects as $subject): 
-            ?>
-                <div class="mt-6">
-                    <h3 class="text-lg font-semibold text-purple-700"><?php echo $subject; ?></h3>
-                    <label class="block text-gray-700 mt-2">Semester Marks:</label>
-                    <input type="number" name="semester_<?php echo $subject; ?>" required class="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-purple-500">
-                    <label class="block text-gray-700 mt-2">IT1 Marks:</label>
-                    <input type="number" name="it1_<?php echo $subject; ?>" required class="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-purple-500">
-                    <label class="block text-gray-700 mt-2">IT2 Marks:</label>
-                    <input type="number" name="it2_<?php echo $subject; ?>" required class="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-purple-500">
-                    <label class="block text-gray-700 mt-2">IT3 Marks:</label>
-                    <input type="number" name="it3_<?php echo $subject; ?>" required class="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-purple-500">
+<body class="bg-gray-100">
+    <div class="container mx-auto p-8 flex flex-col justify-center items-center">
+        <h2 class="text-3xl font-bold mb-6 text-gray-800 text-center fade-in-up">Add Student Marks</h2>
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl flex flex-col justify-center items-center">
+            <form method="POST" action="">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <?php 
+                    $subjects = ["Database Management", "Theory of Computation", "Internet of Things", "Statistical Model Science", "Ethics and Entrepreneurship", "Open Elective"];
+                    foreach ($subjects as $subject): 
+                    ?>
+                        <div class="bg-gray-50 p-4 rounded-lg shadow">
+                            <h3 class="text-lg font-semibold text-gray-800"><?php echo $subject; ?></h3>
+                            <label class="block text-gray-700 mt-2">Semester Marks:</label>
+                            <input type="number" name="semester_<?php echo $subject; ?>" required class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800">
+                            <label class="block text-gray-700 mt-2">IT1 Marks:</label>
+                            <input type="number" name="it1_<?php echo $subject; ?>" required class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800">
+                            <label class="block text-gray-700 mt-2">IT2 Marks:</label>
+                            <input type="number" name="it2_<?php echo $subject; ?>" required class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800">
+                            <label class="block text-gray-700 mt-2">IT3 Marks:</label>
+                            <input type="number" name="it3_<?php echo $subject; ?>" required class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800">
+                        </div>
+                    <?php endforeach; ?>
                 </div>
-            <?php endforeach; ?>
-            <div class="flex justify-center mt-8">
-                <input type="submit" value="Add Marks" class="bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-purple-600 transition duration-200">
-            </div>
-        </form>
+                <div class="flex justify-center mt-8">
+                    <input type="submit" value="Add Marks" class="bg-gray-800 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-gray-700 transition duration-200">
+                </div>
+            </form>
+        </div>
     </div>
 </body>
 </html>
+<?php $conn->close(); ?>
