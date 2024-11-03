@@ -41,7 +41,7 @@ include 'header.php';
 
                     if ($result && $result->num_rows > 0) {
                         $userData = $result->fetch_assoc();
-                        echo "<tr><td class='border p-2 font-semibold'>Image:</td><td class='border p-2'><img src='data:image/jpeg;base64," . base64_encode($userData['image']) . "' alt='User Image' class='w-32 h-32 rounded-full'></td></tr>";
+                        echo "<tr><td class='border p-2 font-semibold'>Image:</td><td class='border p-2'><img src='https://img.freepik.com/premium-vector/silver-membership-icon-default-avatar-profile-icon-membership-icon-social-media-user-image-vector-illustration_561158-4215.jpg' alt='User Image' class='w-32 h-32 rounded-full'></td></tr>";
                         echo "<tr><td class='border p-2 font-semibold'>Name:</td><td class='border p-2'>" . htmlspecialchars($userData['fname']) . ' ' . htmlspecialchars($userData['lname']) . "</td></tr>";
                         echo "<tr><td class='border p-2 font-semibold'>Class:</td><td class='border p-2'>" . htmlspecialchars($userData['class']) . "</td></tr>";
                         echo "<tr><td class='border p-2 font-semibold'>Division:</td><td class='border p-2'>" . htmlspecialchars($userData['division']) . "</td></tr>";
@@ -55,7 +55,7 @@ include 'header.php';
                         echo "<tr><td class='border p-2 font-semibold'>Email:</td><td class='border p-2'>" . htmlspecialchars($userData['email']) . "</td></tr>";
                     } else {
                         echo "<tr><td colspan='2' class='border p-2 text-center'>No user found</td></tr>";
-                    }
+                    }                    
 
                     $conn->close();
                     ?>

@@ -45,7 +45,7 @@ if ($result->num_rows > 0) {
         function showStudentPopup(student) {
             document.getElementById('modalTitle').innerText = `${student.fname} ${student.lname}`;
             document.getElementById('modalContent').innerHTML = `
-                <img src="${student.image}" alt="${student.fname} ${student.lname}" class="w-32 h-32 mb-4 rounded" />
+                <img src="https://img.freepik.com/premium-vector/silver-membership-icon-default-avatar-profile-icon-membership-icon-social-media-user-image-vector-illustration_561158-4215.jpg" alt="${student.fname} ${student.lname}" class="w-32 h-32 mb-4 rounded" />
                 <p class="mb-2"><strong>Username:</strong> ${student.username}</p>
                 <p class="mb-2"><strong>First Name:</strong> ${student.fname} ${student.lname}</p>
                 <p class="mb-2"><strong>Roll Number:</strong> ${student.rollNo}</p>
@@ -132,7 +132,7 @@ if ($result->num_rows > 0) {
             <?php if (!empty($students)): ?>
                 <?php foreach ($students as $student): ?>
                     <div class="student-item bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow">
-                        <img src="<?= htmlspecialchars($student['image']); ?>" alt="Student Photo" class="w-20 h-20 rounded-full mx-auto mb-4">
+                        <img src="https://img.freepik.com/premium-vector/silver-membership-icon-default-avatar-profile-icon-membership-icon-social-media-user-image-vector-illustration_561158-4215.jpg" alt="Student Photo" class="w-20 h-20 rounded-full mx-auto mb-4">
                         <h3 class="font-bold text-lg text-center"><?= htmlspecialchars($student['fname'] . ' ' . $student['lname']); ?></h3>
                         <p class="text-center text-gray-600">Roll Number: <?= htmlspecialchars($student['rollNo']); ?></p>
                         <p class="text-center text-gray-600">Class: <?= htmlspecialchars($student['class']); ?></p>
@@ -171,11 +171,6 @@ if ($result->num_rows > 0) {
             <h2 class="text-2xl font-bold mb-4 text-green-600">Edit Student</h2>
             <form onsubmit="event.preventDefault(); updateStudent();" id="editForm">
                 <input type="hidden" id="editId" name="id">
-                
-                <div class="mb-4">
-                    <label for="editImage" class="block text-gray-700 font-semibold mb-2">Image URL:</label>
-                    <input type="text" id="editImage" name="image" required class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-green-500">
-                </div>
 
                 <div class="mb-4">
                     <label for="editUsername" class="block text-gray-700 font-semibold mb-2">Username:</label>

@@ -1,34 +1,36 @@
 <?php
-    include '../dbconnect.php';
-    include 'header.php';
+include '../dbconnect.php';
+include 'header.php';
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $school_id = $_POST["id"];
-        $image = $_POST["image"];
-        $fname = $_POST["fname"];
-        $lname = $_POST["lname"];
-        $class = $_POST["class"];
-        $division = $_POST["division"];
-        $rollNo = $_POST["rollNo"];
-        $dob = $_POST["dob"];
-        $gender = $_POST["gender"];
-        $address = $_POST["address"];
-        $contact = $_POST["contact"];
-        $parentsContact = $_POST["parentsContact"];
-        $username = $_POST["username"];
-        $email = $_POST["email"];
-        $password = $_POST["password"];
+$flag = false; // Initialize flag
 
-        $sql = "INSERT INTO students (image, fname, lname, class, division, rollNo, dob, gender, address, contact, parentsContact, username, email, password, school_id) VALUES ('$image', '$fname', '$lname', '$class', '$division', '$rollNo', '$dob', '$gender', '$address', '$contact', '$parentsContact', '$username', '$email', '$password', $school_id)";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $school_id = $_POST["id"];
+    $image = $_POST["image"]; // This will be the Base64 image
+    $fname = $_POST["fname"];
+    $lname = $_POST["lname"];
+    $class = $_POST["class"];
+    $division = $_POST["division"];
+    $rollNo = $_POST["rollNo"];
+    $dob = $_POST["dob"];
+    $gender = $_POST["gender"];
+    $address = $_POST["address"];
+    $contact = $_POST["contact"];
+    $parentsContact = $_POST["parentsContact"];
+    $username = $_POST["username"];
+    $email = $_POST["email"];
+    $password = $_POST["password"];
 
-        if ($conn->query($sql) === TRUE) {
-            $flag = true;
-        } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
-        }
+    $sql = "INSERT INTO students (image, fname, lname, class, division, rollNo, dob, gender, address, contact, parentsContact, username, email, password, school_id) VALUES ('$image', '$fname', '$lname', '$class', '$division', '$rollNo', '$dob', '$gender', '$address', '$contact', '$parentsContact', '$username', '$email', '$password', $school_id)";
+
+    if ($conn->query($sql) === TRUE) {
+        $flag = true;
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
     }
+}
 
-    $conn->close();
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -43,9 +45,21 @@
 <script>
     const id = localStorage.getItem("adminID");
 
-    const handleChange = () =>{
+    const handleChange = (event) => {
         const idField = document.getElementById("id");
         idField.value = id;
+
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        
+        reader.onloadend = () => {
+            const imageField = document.getElementById("image");
+            imageField.value = reader.result; // Set Base64 image to hidden input
+        };
+        
+        if (file) {
+            reader.readAsDataURL(file); // Convert file to Base64 URL
+        }
     }
 </script>
 <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
@@ -53,8 +67,9 @@
         <h1 class="text-2xl font-bold text-center mb-6 text-gray-800 fade-in-up">Add New Student</h1>
         <form method="POST" action="">
             <div class="mb-4">
-                <label for="image" class="block text-gray-700 font-semibold mb-2">Image URL:</label>
-                <input type="file" onchange="handleChange()" id="image" name="image" required class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-purple-500">
+                <label for="image" class="block text-gray-700 font-semibold mb-2">Image:</label>
+                <input type="file" onchange="handleChange(event)" id="file-input" required class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-purple-500">
+                <input type="hidden" id="image" name="image" required>
             </div>
             <div class="mb-4">
                 <label for="fname" class="block text-gray-700 font-semibold mb-2">First Name:</label>
@@ -73,24 +88,23 @@
                 <input type="text" id="division" name="division" required class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-purple-500">
             </div>
             <div class="mb-4">
-                <label for="rollno" class="block text-gray-700 font-semibold mb-2">Roll Number:</label>
+                <label for="rollNo" class="block text-gray-700 font-semibold mb-2">Roll Number:</label>
                 <input type="text" id="rollNo" name="rollNo" required class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-purple-500">
             </div>
             <div class="mb-4">
                 <label for="gender" class="block text-gray-700 font-semibold mb-2">Gender:</label>
                 <select id="gender" name="gender" required class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-purple-500">
-                <option value="" disabled selected>Select Gender</option>
+                    <option value="" disabled selected>Select Gender</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                 </select>
             </div>
-
             <div class="mb-4">
-                <label for="rollno" class="block text-gray-700 font-semibold mb-2">Contact:</label>
+                <label for="contact" class="block text-gray-700 font-semibold mb-2">Contact:</label>
                 <input type="text" id="contact" name="contact" required class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-purple-500">
             </div>
             <div class="mb-4">
-                <label for="rollno" class="block text-gray-700 font-semibold mb-2">Parents Contact:</label>
+                <label for="parentsContact" class="block text-gray-700 font-semibold mb-2">Parents Contact:</label>
                 <input type="text" id="parentsContact" name="parentsContact" required class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-purple-500">
             </div>
             <div class="mb-4">
@@ -118,14 +132,10 @@
                 <input id="id" name="id" required class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-purple-500"></input>
             </div>
             <div class="flex justify-center">
-                <input type="submit" value="Add Student" class="bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-purple-600 transition duration-200">
+                <input type="submit" value="Add Student" class="bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg shadow hover:bg-purple-600 transition duration-300 ease-in-out cursor-pointer">
             </div>
         </form>
+        <?php if ($flag) { echo "<div class='mt-4 text-green-500 text-center'>Student added successfully!</div>"; } ?>
     </div>
-    <?php if ($flag): ?>
-        <script>
-            alert("Student added successfully!");
-        </script>
-    <?php endif; ?>
 </body>
 </html>
