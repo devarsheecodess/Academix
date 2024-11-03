@@ -9,7 +9,14 @@ echo "<script>
 
 // Fetch student data from the database
 $school_id = $_COOKIE['school_id'];
+$search_name = isset($_POST['search_name']) ? $_POST['search_name'] : '';
+
 $query = "SELECT * FROM students WHERE school_id = $school_id";
+if ($search_name) {
+    $search_name = $conn->real_escape_string($search_name);
+    $query .= " AND (fname LIKE '%$search_name%' OR lname LIKE '%$search_name%' OR username LIKE '%$search_name%')";
+}
+
 $result = $conn->query($query);
 $students = [];
 
@@ -112,6 +119,14 @@ if ($result->num_rows > 0) {
 <body class="bg-gray-100 text-gray-900">
     <div class="container mx-auto mt-20 px-4">
         <h1 class="text-4xl font-bold text-center text-gray-800 fade-in-up">Students</h1>
+
+        <!-- Search Bar -->
+        <div class="mt-5 flex justify-center">
+            <form method="POST" class="flex items-center">
+                <input type="text" name="search_name" placeholder="Search by name..." value="<?= htmlspecialchars($search_name); ?>" class="border border-gray-300 rounded-lg p-2 w-64 focus:outline-none focus:ring-2 focus:ring-green-500">
+                <button type="submit" class="ml-2 bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Search</button>
+            </form>
+        </div>
         
         <div class="student-grid mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             <?php if (!empty($students)): ?>
