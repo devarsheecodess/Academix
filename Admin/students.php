@@ -11,10 +11,15 @@ echo "<script>
 $school_id = $_COOKIE['school_id'];
 $search_name = isset($_POST['search_name']) ? $_POST['search_name'] : '';
 
-$query = "SELECT * FROM students WHERE school_id = $school_id";
+// Prepare the query with JOIN
+$query = "SELECT s.*, a.schoolName 
+          FROM students s 
+          INNER JOIN admins a ON s.school_id = a.id 
+          WHERE s.school_id = $school_id";
+
 if ($search_name) {
     $search_name = $conn->real_escape_string($search_name);
-    $query .= " AND (fname LIKE '%$search_name%' OR lname LIKE '%$search_name%' OR username LIKE '%$search_name%')";
+    $query .= " AND (s.fname LIKE '%$search_name%' OR s.lname LIKE '%$search_name%' OR s.username LIKE '%$search_name%')";
 }
 
 $result = $conn->query($query);
