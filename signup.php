@@ -107,7 +107,7 @@
 <?php if ($flag): ?>
     <script>
         alert("Account created successfully!");
-        window.location.href = "Admin/main.php";
+        window.location.href = "login.php";
     </script>
 <?php endif; ?>
 </body>

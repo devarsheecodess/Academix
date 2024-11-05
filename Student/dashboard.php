@@ -1,6 +1,28 @@
 <?php
 include '../dbconnect.php';
 include 'header.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_password'])) {
+    // Get the new password from the form
+    $newPassword = $_POST['new_password'];
+    
+    // You may want to add validation for the new password here
+
+    // Get student ID from the cookie
+    $studentId = isset($_COOKIE['studentId']) ? $_COOKIE['studentId'] : null;
+    $studentId = (int)$studentId;
+
+    // Hash the new password
+
+    // Update password in the database
+    $updateSql = "UPDATE students SET password = '$newPassword' WHERE id = $studentId";
+    
+    if ($conn->query($updateSql) === TRUE) {
+        echo "<script>alert('Password updated successfully!');</script>";
+    } else {
+        echo "<script>alert('Error updating password: " . $conn->error . "');</script>";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -61,6 +83,15 @@ include 'header.php';
                     ?>
                 </tbody>
             </table>
+
+            <!-- Password Update Form -->
+            <form method="POST" class="mt-6">
+                <div class="flex flex-col">
+                    <label for="new_password" class="font-semibold">New Password:</label>
+                    <input type="password" name="new_password" id="new_password" class="border p-2 rounded mt-1" required>
+                </div>
+                <button type="submit" name="update_password" class="mt-4 bg-blue-500 text-white p-2 rounded">Update Password</button>
+            </form>
         </div>
     </div>
 

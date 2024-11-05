@@ -99,6 +99,7 @@ if ($result->num_rows > 0) {
 
         function updateStudent() {
             const form = document.getElementById("editForm");
+            
             const formData = new FormData(form);
             const xhr = new XMLHttpRequest();
             xhr.open("POST", "update_student.php", true);
@@ -177,6 +178,32 @@ if ($result->num_rows > 0) {
             <form onsubmit="event.preventDefault(); updateStudent();" id="editForm">
                 <input type="hidden" id="editId" name="id">
 
+                <?php
+                    echo "<script>
+                        const id = document.getElementById('editId').value;
+                        document.cookie = 'student_id_for_edit=' + id;
+                    </script>";
+
+                    if (isset($_COOKIE['student_id_for_edit'])) {
+                        $student_id = $_COOKIE['student_id_for_edit'];
+
+                        $stmt = $conn->prepare("SELECT password FROM students WHERE id = ?");
+                        $stmt->bind_param("s", $student_id); 
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        
+                        if ($row = $result->fetch_assoc()) {
+                            $password = $row['password'];
+                        } else {
+                            $password = '';
+                        }
+                    } else {
+                        $password = '';
+                    }
+                ?>
+
+                <input type="hidden" id="editPassword" name="password" value="<?php echo htmlspecialchars($password); ?>">
+                
                 <div class="mb-4">
                     <label for="editUsername" class="block text-gray-700 font-semibold mb-2">Username:</label>
                     <input type="text" id="editUsername" name="username" required class="border border-gray-300 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-green-500">
