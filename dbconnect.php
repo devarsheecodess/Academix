@@ -1,8 +1,8 @@
 <?php
-    $Conserver = "localhost";
-    $Conusername = "academix2";
-    $Conpassword = "AdminsPrakashDevRaogroups";
-    $Condb = "academix2";
+    $Conserver = "sql12.freesqldatabase.com";
+    $Conusername = "sql12742911";
+    $Conpassword = "y9YIrqY2JQ";
+    $Condb = "sql12742911";
 
     $flag = false;
 
