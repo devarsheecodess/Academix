@@ -112,7 +112,7 @@ Logout.addEventListener("click", function() {
   const cf = confirm("Are you sure you want to logout?");
   if (cf) {
     localStorage.clear();
-    window.location.href = "../login.php";
+    window.location.href = "../index.php";
   }
 });
 </script>
