@@ -30,6 +30,29 @@ if ($result->num_rows > 0) {
         $students[] = $row;
     }
 }
+
+// Inject the script to store the admin ID in a cookie
+    echo "
+    <script>
+        const school_id = localStorage.getItem('adminID');
+        document.cookie = 'school_id=' + school_id;
+    </script>
+    ";
+
+    // Get the school_id from the cookie and query the database
+    if (isset($_COOKIE['school_id'])) {
+        $school_id = $_COOKIE['school_id'];
+        $sql = "SELECT COUNT(*) as total FROM students WHERE school_id = '$school_id'";  // Ensure to properly quote the school_id
+        $result = $conn->query($sql);
+        if ($result) {
+            $row = $result->fetch_assoc();
+            $student_count = $row['total'];
+        } else {
+            $student_count = 0;  // In case of query failure
+        }
+    } else {
+        $student_count = 0;  // If school_id is not set in cookies
+    }
 ?>
 
 <!DOCTYPE html>
@@ -126,12 +149,19 @@ if ($result->num_rows > 0) {
     <div class="container mx-auto mt-20 px-4">
         <h1 class="text-4xl font-bold text-center text-gray-800 fade-in-up">Students</h1>
 
-        <!-- Search Bar -->
-        <div class="mt-5 flex justify-center">
-            <form method="POST" class="flex items-center">
-                <input type="text" name="search_name" placeholder="Search by name..." value="<?= htmlspecialchars($search_name); ?>" class="border border-gray-300 rounded-lg p-2 w-64 focus:outline-none focus:ring-2 focus:ring-green-500">
-                <button type="submit" class="ml-2 bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Search</button>
-            </form>
+        <div class="flex justify-between items-center mt-5">
+            <!-- Search Bar -->
+            <div class="flex justify-center">
+                <form method="POST" class="flex items-center">
+                    <input type="text" name="search_name" placeholder="Search by name..." value="<?= htmlspecialchars($search_name); ?>" class="border border-gray-300 rounded-lg p-2 w-64 focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <button type="submit" class="ml-2 bg-blue-800 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Search</button>
+                </form>
+            </div>
+
+            <div class="h-min text-white gap-3 text-center flex p-3 bg-opacity-70 items-center justify-center rounded-lg bg-gray-300 mb-4">
+                <span class="text-md font-bold text-gray-800">Total Students:</span>
+                <span class="text-md font-semibold text-gray-500" id="student-count"><?php echo $student_count; ?></span>
+            </div>
         </div>
         
         <div class="student-grid mt-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">

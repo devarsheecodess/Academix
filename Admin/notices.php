@@ -86,61 +86,62 @@ if (!empty($school_id)) {
 
     <div class="flex flex-wrap gap-10 justify-center items-start mt-10 px-4">
 
-        <!-- Notice Form -->
-        <div class="w-full md:w-1/2 lg:w-1/3 p-4 bg-white rounded-lg shadow-md">
-            <h2 class="text-2xl font-semibold mb-4">Post a Notice</h2>
-            <form method="POST" action="">
-                <label for="title" class="block text-gray-700 font-semibold mb-2">Title:</label>
-                <input type="text" id="title" name="title" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
+    <!-- Notice Form -->
+    <div class="w-full md:w-1/2 lg:w-1/3 p-4 bg-white rounded-lg shadow-md flex flex-col">
+        <h2 class="text-2xl font-semibold mb-4">Post a Notice</h2>
+        <form method="POST" action="" class="flex-1">
+            <label for="title" class="block text-gray-700 font-semibold mb-2">Title:</label>
+            <input type="text" id="title" name="title" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required>
 
-                <label for="content" class="block text-gray-700 font-semibold mt-4 mb-2">Notice:</label>
-                <textarea id="content" name="content" rows="5" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required></textarea>
+            <label for="content" class="block text-gray-700 font-semibold mt-4 mb-2">Notice:</label>
+            <textarea id="content" name="content" rows="5" class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500" required></textarea>
 
-                <button type="submit" class="w-full mt-4 p-2 bg-gray-800 text-white font-bold rounded-md hover:bg-gray-600 focus:outline-none">Post Notice</button>
-            </form>
-        </div>
+            <button type="submit" class="w-full mt-4 p-2 bg-gray-800 text-white font-bold rounded-md hover:bg-gray-600 focus:outline-none">Post Notice</button>
+        </form>
+    </div>
 
-        <!-- Display Notices -->
-        <div class="w-full md:w-1/2 lg:w-1/3">
-            <h2 class="text-2xl font-semibold mb-4">Posted Notices</h2>
-            <div class="bg-white p-4 rounded-lg shadow-md">
-                <?php if ($message) : ?>
-                    <div class="mb-4 p-2 bg-green-100 text-green-800 rounded-md">
-                        <?= htmlspecialchars($message); ?>
-                    </div>
-                <?php endif; ?>
-                <?php if (!empty($notices)) : ?>
-                    <?php foreach ($notices as $notice) : ?>
-                        <div class="notice-item mb-4 p-4 border-b border-gray-300">
-                            <h3 class="font-bold text-lg"><?= htmlspecialchars($notice['title']); ?></h3>
-                            <p class="mt-2 text-gray-700 truncate"><?= htmlspecialchars(substr($notice['content'], 0, 100)) . '...'; ?></p>
+    <!-- Display Notices -->
+    <div class="w-full md:w-1/2 lg:w-1/3 p-4 bg-white rounded-lg shadow-md flex flex-col h-80 overflow-y-scroll">
+        <h2 class="text-2xl font-semibold mb-4">Posted Notices</h2>
+        <div class="flex-1">
+            <?php if ($message) : ?>
+                <div class="mb-4 p-2 bg-green-100 text-green-800 rounded-md">
+                    <?= htmlspecialchars($message); ?>
+                </div>
+            <?php endif; ?>
+            <?php if (!empty($notices)) : ?>
+                <?php foreach ($notices as $notice) : ?>
+                    <div class="notice-item mb-4 p-4 border-b border-gray-300">
+                        <h3 class="font-bold text-lg"><?= htmlspecialchars($notice['title']); ?></h3>
+                        <p class="mt-2 text-gray-700 truncate"><?= htmlspecialchars(substr($notice['content'], 0, 100)) . '...'; ?></p>
 
-                            <div class="flex justify-between items-center mt-4">
-                                <small class="text-gray-500">Posted on: <?= htmlspecialchars($notice['posted_on']); ?></small>
-                                <div class="flex space-x-4">
-                                    <button onclick="showNoticePopup('<?= htmlspecialchars($notice['title']); ?>', '<?= htmlspecialchars($notice['content']); ?>')" class="text-blue-500 hover:text-blue-700">
-                                        <i class="fas fa-info-circle"></i>
+                        <div class="flex justify-between items-center mt-4">
+                            <small class="text-gray-500">Posted on: <?= htmlspecialchars($notice['posted_on']); ?></small>
+                            <div class="flex space-x-4">
+                                <button onclick="showNoticePopup('<?= htmlspecialchars($notice['title']); ?>', '<?= htmlspecialchars($notice['content']); ?>')" class="text-blue-500 hover:text-blue-700">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                                <button onclick="showEditPopup('<?= htmlspecialchars($notice['id']); ?>', '<?= htmlspecialchars($notice['title']); ?>', '<?= htmlspecialchars($notice['content']); ?>')" class="text-green-500 hover:text-green-700">
+                                    <i class="fas fa-pencil-alt"></i>
+                                </button>
+                                <form method="POST" action="" class="inline" onsubmit="return confirmDelete();">
+                                    <input type="hidden" name="action" value="delete">
+                                    <input type="hidden" name="notice_id" value="<?= htmlspecialchars($notice['id']); ?>">
+                                    <button type="submit" class="text-red-500 hover:text-red-700">
+                                        <i class="fas fa-trash"></i>
                                     </button>
-                                    <button onclick="showEditPopup('<?= htmlspecialchars($notice['id']); ?>', '<?= htmlspecialchars($notice['title']); ?>', '<?= htmlspecialchars($notice['content']); ?>')" class="text-green-500 hover:text-green-700">
-                                        <i class="fas fa-pencil-alt"></i>
-                                    </button>
-                                    <form method="POST" action="" class="inline" onsubmit="return confirmDelete();">
-                                        <input type="hidden" name="action" value="delete">
-                                        <input type="hidden" name="notice_id" value="<?= htmlspecialchars($notice['id']); ?>">
-                                        <button type="submit" class="text-red-500 hover:text-red-700">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
+                                </form>
                             </div>
                         </div>
-                    <?php endforeach; ?>
+                    </div>
+                <?php endforeach; ?>
                 <?php else : ?>
                     <p class="text-gray-500">No notices posted yet.</p>
                 <?php endif; ?>
             </div>
         </div>
     </div>
+
 
     <div id="noticeModal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center">
         <div class="bg-white w-3/4 max-w-lg p-6 rounded-lg shadow-lg">
