@@ -50,7 +50,6 @@ if (!empty($school_id)) {
 
         <!-- Display Notices -->
         <div class="w-full md:w-1/2 lg:w-1/3">
-            <h2 class="text-2xl font-semibold mb-4">Posted Notices</h2>
             <div class="bg-white p-4 rounded-lg shadow-md">
                 <?php if (!empty($notices)) : ?>
                     <?php foreach ($notices as $notice) : ?>
